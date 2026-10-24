@@ -2,31 +2,27 @@
 package uk.ac.westminster.products_api;
 
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
-
     private final List<Product> products = new ArrayList<>();
-    private long nextId = 1;
+    private int nextId = 1;
 
     public List<Product> getAllProducts() {
         return products;
     }
 
     public Optional<Product> getProductById(int id) {
-        return products.stream()
-                .filter(p -> p.getId() != null && p.getId() == id)
-                .findFirst();
+        return products.stream().filter(p -> p.getId() == id).findFirst();
     }
 
     public List<Product> findByName(String name) {
         return products.stream()
-                .filter(p -> p.getName() != null &&
-                        p.getName().contains(name))
-                .toList();
+                .filter(p -> p.getName().contains(name)).toList();
     }
 
     public Product addProduct(Product product) {
@@ -36,7 +32,6 @@ public class ProductService {
     }
 
     public void deleteProduct(int id) {
-        products.removeIf(p ->
-                p.getId() != null && p.getId() == id);
+        products.removeIf(p -> p.getId() == id);
     }
 }

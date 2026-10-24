@@ -1,26 +1,24 @@
 package uk.ac.westminster.products_api;
 
-public class Person {
-    private Long id;
-    private String name;
-    private String Dob;
+import java.time.LocalDate;
+import java.time.Period;
 
-    public Person(Long id, String name, String Dob) {
+public class Person {
+    private int id;
+    private String name;
+    private LocalDate birthDate;
+
+
+    public Person(int id, String name, LocalDate birthDate) {
         this.id = id;
         this.name = name;
-        this.Dob = Dob;
-    }
-    // add getters
-    public Person() {}
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
+        this.birthDate = birthDate;
     }
 
-    public String getName() {
-        return name;
-
+    String calculateAge() {
+        LocalDate now = LocalDate.now();
+        Period period = Period.between(birthDate, now);
+        int years = period.getYears();
+        return String.join(" ", "Person born in", this.birthDate.toString(), "is", String.valueOf(years), "old today");
     }
 }

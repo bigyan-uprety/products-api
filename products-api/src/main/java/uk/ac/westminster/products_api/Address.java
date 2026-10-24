@@ -1,51 +1,18 @@
 package uk.ac.westminster.products_api;
 
 public class Address {
-    private int id;
-    private String name;
-    private String province;
-    private String city;
-    private String country;
+    int id;
+    String city;
+    String province;
+    String country;
 
-    public Address(int id, String name, String province, String city, String country) {
+    Address(int id, String city, String province, String country){
         this.id = id;
-        this.name = name;
-        this.province = province;
         this.city = city;
+        this.province = province;
         this.country = country;
     }
-
-    //add getters
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-    public String getCity() {
-        return city;
-    }
-    public void setCity(String city) {
-        this.city = city;
-    }
-    public String getCountry() {
-        return country;
-    }
-    public void setCountry(String country) {
-        this.country = country;
+    public String getFullAddress(){
+        return String.join(",", this.city, this.province, this.country);
     }
 }

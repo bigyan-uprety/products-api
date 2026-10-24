@@ -1,55 +1,59 @@
 package uk.ac.westminster.products_api;
 
-import org.springdoc.webmvc.ui.SwaggerIndexTransformer;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
 
-    private final SwaggerIndexTransformer indexPageTransformer;
-
-    public ProductController(SwaggerIndexTransformer indexPageTransformer) {
-        this.indexPageTransformer = indexPageTransformer;
+    @GetMapping("/")
+    public List<Product> all() {
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-        return new Product(id, "Laptop", 999.99);
+    public Product getById(@PathVariable int id) {
+        return productService.getProductById(id)
+                .orElse(null); // Lecture 6
     }
 
-    @GetMapping("/all")
-    public Map<String, Object> all() {
+    @PostMapping("/")
+    public Product add(@RequestBody Product product) {
+        return productService.addProduct(product);
+    }
+
+    @GetMapping("/all-single")
+    public Map<String, Object> allSingleInstance() {
         List<Product> productList = new ArrayList<>();
-
         int id = 123;
-
+        Product product = new Product(id, "Product-" + id, 20, true, 199.99);
         for (int index = 0; index <= 4; index++) {
             id += index;
+            productList.add(product);
 
-            productList.add(new Product(
-                    (long) id,
-                    "Product-" + id,
-                    199.99
-            ));
+            product.setId(id + index);
+            product.setName("Product " + index);
+            product.setInStock(id % 2 == 0);
         }
 
         return Map.of(
-                "Total Products", productList.size(),
-                "Products", productList
+                "Total Instance Count", Product.getInstanceCount(),
+                "Total Products", productList
         );
     }
-}
 
+}
 
 
 
