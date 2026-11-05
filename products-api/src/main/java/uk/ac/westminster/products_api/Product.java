@@ -3,7 +3,7 @@ package uk.ac.westminster.products_api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public class Product {
+public abstract class Product {
     private int id;
     private String name;
     private int qty;
@@ -78,7 +78,5 @@ public class Product {
         return "order fulfilled";
     }
 
-    public String getSummary() {
-        return name + " — £" + unitPrice;
-    }
+    public abstract String getSummary();
 }
