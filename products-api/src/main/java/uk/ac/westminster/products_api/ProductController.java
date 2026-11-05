@@ -49,6 +49,13 @@ public class ProductController {
         return overrideList;
     }
 
+    @GetMapping("/getDiscountedProducts")
+    public List<Product> applyDiscount() {
+        List<Product> products = productService.addGetInheritedProduct();
+        productService.applyDiscounts(products);
+        return productService.getDiscountedProducts();
+    }
+
 }
 
 
